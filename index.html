@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Лавка зілля — каталог еліксирів зі станами екрана та дизайн-системою на CSS-токенах">
+  <title>Лавка зілля</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <p class="logo">Лавка <span>зілля</span></p>
+      <nav class="tabs" aria-label="Розділи">
+        <button class="btn btn--ghost" type="button" data-view="shelf" aria-pressed="true">Полиця</button>
+        <button class="btn btn--ghost" type="button" data-view="kit" aria-pressed="false">UI-Kit</button>
+        <button class="btn" type="button" id="theme" aria-pressed="false">Ніч</button>
+      </nav>
+    </header>
+
+    <main>
+      <section data-panel="shelf">
+        <h1 class="title">Що сьогодні вариться</h1>
+
+        <div class="controls">
+          <form class="field" id="brew-form" novalidate>
+            <label for="potion-name">Нове зілля</label>
+            <div class="field__row">
+              <input class="input" id="potion-name" type="text" placeholder="Еліксир понеділка" aria-describedby="potion-error">
+              <button class="btn btn--primary" type="submit">Зварити</button>
+            </div>
+            <p class="field__error is-hidden" id="potion-error">Порожній котел не кипить — впиши назву</p>
+          </form>
+
+          <div class="field">
+            <label for="search">Пошук на полиці</label>
+            <div class="field__row">
+              <input class="input" id="search" type="search" placeholder="Назва зілля">
+              <button class="btn" type="button" id="refresh">Оновити</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="switcher" role="group" aria-label="Перемикач станів екрана">
+          <span>state →</span>
+          <button class="btn" type="button" data-show="content">Дані</button>
+          <button class="btn" type="button" data-show="loading">Завантаження</button>
+          <button class="btn" type="button" data-show="empty">Порожній</button>
+          <button class="btn" type="button" data-show="error">Помилка</button>
+        </div>
+
+        <div aria-live="polite">
+          <div data-state="loading" class="is-hidden">
+            <ul class="shelf">
+              <li class="skeleton"></li>
+              <li class="skeleton"></li>
+              <li class="skeleton"></li>
+              <li class="skeleton"></li>
+            </ul>
+            <p class="brewing">котел булькає…</p>
+          </div>
+
+          <div data-state="content" class="is-hidden">
+            <ul class="shelf" id="shelf"></ul>
+          </div>
+
+          <div data-state="empty" class="notice is-hidden">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M24 6h16M27 6v16L12 50a6 6 0 0 0 5 9h30a6 6 0 0 0 5-9L37 22V6"/>
+              <path d="M19 44h26" stroke-dasharray="2 6"/>
+            </svg>
+            <h2>Полиця порожня</h2>
+            <p id="empty-text">Усе зілля випито. Алхімік у шоці.</p>
+            <button class="btn btn--primary" type="button" id="restock">Повернути запаси</button>
+          </div>
+
+          <div data-state="error" class="notice notice--error is-hidden">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 26h48M12 26c0 16 8 26 20 26s20-10 20-26M18 58l4-6M46 58l-4-6"/>
+              <path d="M30 30l4 6-4 4 4 6M24 18c0-4 4-4 4-8M38 18c0-4 4-4 4-8"/>
+            </svg>
+            <span class="code">ERR 418 · CAULDRON_OVERHEAT</span>
+            <h2>Котел перегрівся</h2>
+            <p>Алхімік уже дме на нього. Спробуй ще раз.</p>
+            <button class="btn btn--danger" type="button" id="retry">Повторити спробу</button>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="kit" class="kit is-hidden">
+        <h1 class="title">Дизайн-система</h1>
+
+        <div class="kit-block">
+          <h2>Кнопки</h2>
+          <div class="kit-row">
+            <figure><button class="btn btn--primary" type="button">Зварити</button><figcaption>primary</figcaption></figure>
+            <figure><button class="btn btn--primary is-hover" type="button">Зварити</button><figcaption>hover</figcaption></figure>
+            <figure><button class="btn btn--primary is-focus" type="button">Зварити</button><figcaption>focus</figcaption></figure>
+            <figure><button class="btn btn--primary" type="button" disabled>Зварити</button><figcaption>disabled</figcaption></figure>
+          </div>
+          <div class="kit-row">
+            <figure><button class="btn" type="button">Понюхати</button><figcaption>secondary</figcaption></figure>
+            <figure><button class="btn is-hover" type="button">Понюхати</button><figcaption>hover</figcaption></figure>
+            <figure><button class="btn is-focus" type="button">Понюхати</button><figcaption>focus</figcaption></figure>
+            <figure><button class="btn" type="button" disabled>Понюхати</button><figcaption>disabled</figcaption></figure>
+          </div>
+          <div class="kit-row">
+            <figure><button class="btn btn--danger" type="button">Вилити</button><figcaption>danger</figcaption></figure>
+            <figure><button class="btn btn--danger is-hover" type="button">Вилити</button><figcaption>hover</figcaption></figure>
+            <figure><button class="btn btn--danger is-focus" type="button">Вилити</button><figcaption>focus</figcaption></figure>
+            <figure><button class="btn btn--danger" type="button" disabled>Вилити</button><figcaption>disabled</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="kit-block">
+          <h2>Поля</h2>
+          <div class="kit-inputs">
+            <div class="field">
+              <label for="kit-default">Default</label>
+              <input class="input" id="kit-default" type="text" placeholder="Назва зілля">
+            </div>
+            <div class="field">
+              <label for="kit-focus">Focus</label>
+              <input class="input is-focus" id="kit-focus" type="text" value="Еліксир сміливості">
+            </div>
+            <div class="field">
+              <label for="kit-disabled">Disabled</label>
+              <input class="input" id="kit-disabled" type="text" value="Розпродано" disabled>
+            </div>
+            <div class="field">
+              <label for="kit-error">Error</label>
+              <input class="input" id="kit-error" type="text" aria-invalid="true" aria-describedby="kit-error-msg">
+              <p class="field__error" id="kit-error-msg">Без назви котел не запуститься</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="kit-block">
+          <h2>Картка</h2>
+          <ul class="shelf">
+            <li class="potion potion--plum">
+              <h2>Зразок зілля</h2>
+              <p>Картка бере кольори лише з токенів, тому тема перемикається без зміни класів.</p>
+              <button class="btn btn--ghost" type="button">Випити</button>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
